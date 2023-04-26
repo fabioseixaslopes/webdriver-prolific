@@ -1,14 +1,11 @@
 """
-prolific-helper
+webdriver-prolific
 """
 
 '''
-IMPORTS
+IMPORTS & VARIABLES
 '''
 
-'''
-VARIABLES
-'''
 from selenium import webdriver
 from random import randrange
 from win10toast import ToastNotifier
@@ -36,7 +33,6 @@ def driver_setup():
     driver.implicitly_wait(wait_min_time)
     return driver
 
-
 def login(driver, username, password):
     if driver.find_elements_by_xpath('//*[@id="id_username"]'):
         driver.find_element_by_xpath(
@@ -50,11 +46,10 @@ def login(driver, username, password):
                 print(username)
                 driver.implicitly_wait(wait_min_time)
 
-
 def wait_until_survey(driver):
     no_survey = True  # bypass with False here if needed
     while no_survey:
-        sleeping = randrange(wait_max_time_random)+1
+        sleeping = randrange(wait_max_time_random) + wait_min_time
         print("Waiting: " + str(sleeping) + " seconds...")
         time.sleep(sleeping)
         driver.refresh()
@@ -65,7 +60,6 @@ def wait_until_survey(driver):
         else:
             print("There are surveys")
             no_survey = False
-
 
 def enter_survey(driver):
     # checks if there is a survey really
@@ -97,7 +91,6 @@ def enter_survey(driver):
         print("Didn't find any survey tab.")
         return
 
-
 def notification(windows_notification, sound_notification):
     # for this notification to work on Windows 10, Notification from other sources must be activated.
     if windows_notification:
@@ -107,7 +100,6 @@ def notification(windows_notification, sound_notification):
     if sound_notification:
         print("Playing sound notification...")
         playsound(notification_filename)
-
 
 def wait_until_done(use_input, open_new_window, window_number):
     # wait for input
@@ -129,7 +121,6 @@ def wait_until_done(use_input, open_new_window, window_number):
         driver.get(prolific_url)
         return window_number
 
-
 def restart_search():
     print("Searching again...")
     elem = driver.find_elements_by_xpath(
@@ -138,10 +129,10 @@ def restart_search():
         elem[0].click()
     driver.implicitly_wait(wait_min_time)
 
-
 '''
 MAIN PROGRAM
 '''
+
 # SETUP & LOGIN
 driver = driver_setup()
 login(driver, username, password)
